@@ -59,6 +59,12 @@
             <version>16.0.1</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>de.ruedigermoeller</groupId>
+            <artifactId>fst</artifactId>
+            <version>1.40</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

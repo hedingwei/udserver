@@ -6,7 +6,7 @@
 package com.ambimmort.udserver.core;
 
 import com.ambimmort.rmr.client.Client;
-import com.ambimmort.rmr.client.ConnectionPoint;
+import com.ambimmort.rmr.client.Connection;
 import com.ambimmort.rmr.messages.commons.UdMessage;
 import com.ambimmort.udserver.configuration.UdServerConfig;
 import java.text.NumberFormat;
@@ -36,7 +36,7 @@ public class UdMessageProcessor implements Runnable {
                 String str = (String) cps.get(i);
                 String host = str.split(":")[0];
                 int port = Integer.parseInt(str.split(":")[1]);
-                new ConnectionPoint(host, port, client);
+                new Connection(host, port, client);
             }
             client.connect();
             clients.put((String) k, client);
@@ -59,22 +59,6 @@ public class UdMessageProcessor implements Runnable {
     }
 
     public void run() {
-
-//        String window = UdWindow.getInstance().getWindow();
-//        CassandraClient client = CassandraClient.getInstance();
-//        Session session = client.getCluster().connect("udmsgstoredb");
-//
-//        PreparedStatement ps = CassandraClient.getInstance().getMsgInsert();
-//        BatchStatement bs = new BatchStatement();
-//        String windowid = null;
-//        for (UdMessage msg : msgs) {
-//            windowid = String.format("%02x", msg.getPacketType() & 0xff) + "_" + String.format("%02x", msg.getPacketSubType() & 0xff) + ":" + window;
-//            bs.add(ps.bind(windowid, msg.getByteBuffer(), msg.getMessageLength()));
-//        }
-//
-//        session.executeAsync(bs);
-//        session.close();
-//        System.out.println(msgs);
         UdMessage m = new UdMessage();
         for (UdRawMessage msg : msgs) {
             m.setType(msg.getPacketType());
@@ -84,7 +68,6 @@ public class UdMessageProcessor implements Runnable {
                 if (routers_ud1.containsKey(m.getSubtype())) {
                     clients.get(routers_ud1.get(m.getSubtype())).send(m);
                 }
-
             } else if (msg.getPacketType() == 0x02) {
                 if (routers_ud2.containsKey(m.getSubtype())) {
                     clients.get(routers_ud2.get(m.getSubtype())).send(m);

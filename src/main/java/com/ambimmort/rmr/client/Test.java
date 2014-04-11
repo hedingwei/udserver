@@ -5,6 +5,9 @@
  */
 package com.ambimmort.rmr.client;
 
+import com.ambimmort.rmr.messages.commons.UdMessage;
+import de.ruedigermoeller.serialization.FSTObjectOutput;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.NumberFormat;
 
@@ -39,11 +42,35 @@ public class Test {
 //
 //            client.broadcast(msg);
 //        }
-        NumberFormat nf = NumberFormat.getNumberInstance();
-        nf.setMinimumIntegerDigits(2);
-        System.out.println(0x83);
-        System.out.println((byte)0x83);
-        System.out.println(Integer.toHexString(131));
-        System.out.println(nf.format(Integer.parseInt(Integer.toHexString(131))));
+        FSTObjectOutput oos = new FSTObjectOutput(new FileOutputStream("C:\\Users\\定巍\\Downloads\\tttt4.data"));
+        UdMessage udmessage = new UdMessage();
+        udmessage.setType((byte) 1);
+        udmessage.setSubtype((byte) 2);
+        byte[] data = new byte[1];
+        for (int i = 0; i < 1; i++) {
+            data[i] = 1;
+        }
+        udmessage.setMsg(data);
+        oos.writeObject(udmessage);
+        udmessage = new UdMessage();
+        udmessage.setType((byte) 1);
+        udmessage.setSubtype((byte) 2);
+        data = new byte[2];
+        for (int i = 0; i < 2; i++) {
+            data[i] = 1;
+        }
+        udmessage.setMsg(data);
+        oos.writeObject(udmessage);
+        udmessage = new UdMessage();
+        udmessage.setType((byte) 1);
+        udmessage.setSubtype((byte) 2);
+        data = new byte[2];
+        for (int i = 0; i < 2; i++) {
+            data[i] = 1;
+        }
+        udmessage.setMsg(data);
+        oos.writeObject(udmessage);
+        oos.flush();
+        oos.close();
     }
 }

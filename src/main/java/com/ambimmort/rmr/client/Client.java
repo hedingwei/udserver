@@ -17,45 +17,45 @@ import java.util.Set;
  */
 public class Client {
 
-    private ConsistentHash<ConnectionPoint> connectionsPoints = null;
+    private ConsistentHash<Connection> connectionsPoints = null;
 
-    private List<ConnectionPoint> cps = null;
+    private List<Connection> cps = null;
     
     private int count = 0;
 
-    public List<ConnectionPoint> getCps() {
+    public List<Connection> getCps() {
         return cps;
     }
 
-    public Client(List<ConnectionPoint> cps) {
+    public Client(List<Connection> cps) {
         this.cps = cps;
-        connectionsPoints = new ConsistentHash<ConnectionPoint>(Hashing.murmur3_128(), cps.size(), cps);
+        connectionsPoints = new ConsistentHash<Connection>(Hashing.murmur3_128(), cps.size(), cps);
     }
     
     public Client() {
-        this.cps = new ArrayList<ConnectionPoint>();
-        connectionsPoints = new ConsistentHash<ConnectionPoint>(Hashing.murmur3_128(), cps.size(), cps);
+        this.cps = new ArrayList<Connection>();
+        connectionsPoints = new ConsistentHash<Connection>(Hashing.murmur3_128(), cps.size(), cps);
     }
 
     public synchronized void refresh() {
         connectionsPoints = null;
-        connectionsPoints = new ConsistentHash<ConnectionPoint>(Hashing.murmur3_128(), cps.size(), cps);
+        connectionsPoints = new ConsistentHash<Connection>(Hashing.murmur3_128(), cps.size(), cps);
     }
     
-    public void addConnectionPoint(ConnectionPoint cp){
+    public void addConnectionPoint(Connection cp){
         this.cps.add(cp);
         refresh();
     }
 
     public void connect() {
-        for (ConnectionPoint cp : connectionsPoints.getCircle().values()) {
+        for (Connection cp : connectionsPoints.getCircle().values()) {
             cp.start();
         }
     }
 
-    public Set<ConnectionPoint> broadcast(Object obj) {
-        HashSet<ConnectionPoint> set = new HashSet<ConnectionPoint>();
-        for (ConnectionPoint cp : connectionsPoints.getCircle().values()) {
+    public Set<Connection> broadcast(Object obj) {
+        HashSet<Connection> set = new HashSet<Connection>();
+        for (Connection cp : connectionsPoints.getCircle().values()) {
             if (cp.send(obj)) {
                 set.add(cp);
             }
@@ -64,14 +64,14 @@ public class Client {
     }
 
     public boolean send(Object key, Object obj) {
-        ConnectionPoint cp = this.connectionsPoints.get(key);
+        Connection cp = this.connectionsPoints.get(key);
         return cp.send(obj);
     }
     
     public boolean send(Object obj) {
         count++;
         int index = count%cps.size();
-        ConnectionPoint cp = cps.get(index);
+        Connection cp = cps.get(index);
         return cp.send(obj);
     }
 
