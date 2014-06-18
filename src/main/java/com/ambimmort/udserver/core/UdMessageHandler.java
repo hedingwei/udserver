@@ -27,7 +27,7 @@ public class UdMessageHandler extends IoHandlerAdapter {
 
     @Override
     public void sessionClosed(IoSession session) throws Exception {
-        System.out.println("dpi session opend[" + sdf.format(new Date(session.getCreationTime())) + "].  remote address: " + session.getRemoteAddress()+"\t lastIoTime:["+ sdf.format(new Date(session.getLastIoTime()))+"]");
+        System.out.println("dpi session closed[" + sdf.format(new Date(session.getCreationTime())) + "].  remote address: " + session.getRemoteAddress()+"\t lastIoTime:["+ sdf.format(new Date(session.getLastIoTime()))+"]");
         
     }
 
