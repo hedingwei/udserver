@@ -54,6 +54,10 @@ public class Connection {
             public void sessionOpened(IoSession session) throws Exception {
                 System.out.println("session opend");
                 Connection.this.connected = true;
+                if (!Connection.this.client.getCps().contains(Connection.this)) {
+                    Connection.this.client.addConnectionPoint(Connection.this);
+                    Connection.this.client.refresh();
+                }
             }
 
             @Override
@@ -80,10 +84,19 @@ public class Connection {
                     Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 session = null;
-                ConnectFuture future = connector.connect(new InetSocketAddress(Connection.this.endPoint.getHost(), Connection.this.endPoint.getPort()));
-                future.awaitUninterruptibly();
+                ConnectFuture future = connector.connect(new InetSocketAddress(Connection.this.endPoint.getHost(), Connection.this.endPoint.getPort()), new IoSessionInitializer<ConnectFuture>() {
+
+                    public void initializeSession(IoSession session, ConnectFuture future) {
+                        System.out.println(future);
+                        if (!Connection.this.client.getCps().contains(Connection.this)) {
+                            Connection.this.client.addConnectionPoint(Connection.this);
+                            Connection.this.client.refresh();
+                        }
+                    }
+                });
+                future.awaitUninterruptibly(5000);
                 session = future.getSession();
-                session.getCloseFuture().awaitUninterruptibly();
+                session.getCloseFuture().awaitUninterruptibly(5000);
                 if (!Connection.this.client.getCps().contains(Connection.this)) {
                     Connection.this.client.addConnectionPoint(Connection.this);
                     Connection.this.client.refresh();
@@ -128,15 +141,16 @@ public class Connection {
 
                         public void initializeSession(IoSession session, ConnectFuture future) {
                             System.out.println(future);
+                            if (!Connection.this.client.getCps().contains(Connection.this)) {
+                                Connection.this.client.addConnectionPoint(Connection.this);
+                                Connection.this.client.refresh();
+                            }
                         }
                     });
                     future.awaitUninterruptibly(5000);
                     session = future.getSession();
                     session.getCloseFuture().awaitUninterruptibly(5000);
-                    if (!Connection.this.client.getCps().contains(Connection.this)) {
-                        Connection.this.client.addConnectionPoint(Connection.this);
-                        Connection.this.client.refresh();
-                    }
+
                 }
             });
             this.thread.start();
