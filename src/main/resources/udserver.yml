@@ -27,5 +27,5 @@ cache:
 
      
 log:
-    logcodec: true
+    logcodec: false
     logconfigfile: etc/log4j.conf

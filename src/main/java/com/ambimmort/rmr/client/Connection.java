@@ -52,7 +52,7 @@ public class Connection {
         connector.setHandler(new IoHandlerAdapter() {
             @Override
             public void sessionOpened(IoSession session) throws Exception {
-                System.out.println("session opend. remote address: "+session.getRemoteAddress());
+                System.out.println("session opend. remote address: " + session.getRemoteAddress());
                 Connection.this.connected = true;
                 if (!Connection.this.client.getCps().contains(Connection.this)) {
                     Connection.this.client.addConnectionPoint(Connection.this);
@@ -69,7 +69,7 @@ public class Connection {
 
             @Override
             public void sessionClosed(IoSession session) throws Exception {
-                System.out.println("session closed. remote address: "+session.getRemoteAddress());
+                System.out.println("session closed. remote address: " + session.getRemoteAddress());
                 Connection.this.connected = false;
                 Connection.this.client.getCps().remove(Connection.this);
                 Connection.this.client.refresh();
@@ -88,7 +88,11 @@ public class Connection {
                 ConnectFuture future = connector.connect(new InetSocketAddress(Connection.this.endPoint.getHost(), Connection.this.endPoint.getPort()), new IoSessionInitializer<ConnectFuture>() {
 
                     public void initializeSession(IoSession session, ConnectFuture future) {
-                        System.out.println(future);
+                        System.out.println("**********----***********");
+                        System.out.println("session[" + session.getId() + "] local:" + session.getLocalAddress() + " remote:" + session.getRemoteAddress());
+                        System.out.println("ConnectFuture isCanceled:" + future.isCanceled() + "\tisConnected:" + future.isConnected() + "\tisDone:" + future.isDone());
+                        System.out.println("ConnectFuture Exception: " + future.getException().toString());
+                        System.out.println("**********----***********");
                         if (!Connection.this.client.getCps().contains(Connection.this)) {
                             Connection.this.client.addConnectionPoint(Connection.this);
                             Connection.this.client.refresh();
@@ -141,7 +145,11 @@ public class Connection {
                     ConnectFuture future = connector.connect(new InetSocketAddress(Connection.this.endPoint.getHost(), Connection.this.endPoint.getPort()), new IoSessionInitializer<ConnectFuture>() {
 
                         public void initializeSession(IoSession session, ConnectFuture future) {
-                            System.out.println(future);
+                            System.out.println("**********----***********");
+                            System.out.println("session[" + session.getId() + "] local:" + session.getLocalAddress() + " remote:" + session.getRemoteAddress());
+                            System.out.println("ConnectFuture isCanceled:" + future.isCanceled() + "\tisConnected:" + future.isConnected() + "\tisDone:" + future.isDone());
+                            System.out.println("ConnectFuture Exception: " + future.getException().toString());
+                            System.out.println("**********----***********");
                             if (!Connection.this.client.getCps().contains(Connection.this)) {
                                 Connection.this.client.addConnectionPoint(Connection.this);
                                 Connection.this.client.refresh();
