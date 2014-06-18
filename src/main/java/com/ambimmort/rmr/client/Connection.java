@@ -11,8 +11,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.mina.core.RuntimeIoException;
 import org.apache.mina.core.future.ConnectFuture;
+import org.apache.mina.core.future.IoFuture;
+import org.apache.mina.core.future.IoFutureListener;
 import org.apache.mina.core.service.IoConnector;
 import org.apache.mina.core.service.IoHandlerAdapter;
+import org.apache.mina.core.service.IoServiceListener;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.core.session.IoSessionInitializer;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
@@ -48,8 +51,6 @@ public class Connection {
         return session;
     }
 
-    
-    
     public Connection(String host, int port, Client client) {
         this.client = client;
         client.addConnectionPoint(this);
@@ -62,7 +63,9 @@ public class Connection {
         connector.setHandler(new IoHandlerAdapter() {
             @Override
             public void sessionOpened(IoSession session) throws Exception {
-                System.out.println("session opend. remote address: " + session.getRemoteAddress());
+                Connection.this.session = session;
+                System.out.println("session [" + session.getId() + "]["+session.isConnected()+"] opened local:" + session.getLocalAddress() + " remote:" + session.getRemoteAddress());
+                System.out.println("**********----***********");
                 Connection.this.connected = true;
                 if (!Connection.this.client.getCps().contains(Connection.this)) {
                     Connection.this.client.addConnectionPoint(Connection.this);
@@ -75,7 +78,7 @@ public class Connection {
                 Connection.this.connected = false;
                 cause.printStackTrace();
                 session.close(true);
-                
+
                 reconnect();
             }
 
@@ -100,15 +103,15 @@ public class Connection {
                 ConnectFuture future = connector.connect(new InetSocketAddress(Connection.this.endPoint.getHost(), Connection.this.endPoint.getPort()), new IoSessionInitializer<ConnectFuture>() {
 
                     public void initializeSession(IoSession session, ConnectFuture future) {
-                        System.out.println("**********----***********");
-                        System.out.println("session[" + session.getId() + "] local:" + session.getLocalAddress() + " remote:" + session.getRemoteAddress());
-                        System.out.println("ConnectFuture isCanceled:" + future.isCanceled() + "\tisConnected:" + future.isConnected() + "\tisDone:" + future.isDone());
-                        System.out.println("ConnectFuture Exception: " + future.getException());
-                        System.out.println("**********----***********");
-                        if (!Connection.this.client.getCps().contains(Connection.this)) {
-                            Connection.this.client.addConnectionPoint(Connection.this);
-                            Connection.this.client.refresh();
-                        }
+//                        System.out.println("**********----***********");
+//                        System.out.println("session[" + session.getId() + "] local:" + session.getLocalAddress() + " remote:" + session.getRemoteAddress());
+//                        System.out.println("ConnectFuture isCanceled:" + future.isCanceled() + "\tisConnected:" + future.isConnected() + "\tisDone:" + future.isDone());
+//                        System.out.println("ConnectFuture Exception: " + future.getException());
+//                        System.out.println("**********----***********");
+//                        if (!Connection.this.client.getCps().contains(Connection.this)) {
+//                            Connection.this.client.addConnectionPoint(Connection.this);
+//                            Connection.this.client.refresh();
+//                        }
                     }
                 });
 //                future.awaitUninterruptibly(5000);
@@ -156,18 +159,11 @@ public class Connection {
                         Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     session = null;
+
                     ConnectFuture future = connector.connect(new InetSocketAddress(Connection.this.endPoint.getHost(), Connection.this.endPoint.getPort()), new IoSessionInitializer<ConnectFuture>() {
 
                         public void initializeSession(IoSession session, ConnectFuture future) {
-                            System.out.println("**********----***********");
-                            System.out.println("session[" + session.getId() + "] local:" + session.getLocalAddress() + " remote:" + session.getRemoteAddress());
-                            System.out.println("ConnectFuture isCanceled:" + future.isCanceled() + "\tisConnected:" + future.isConnected() + "\tisDone:" + future.isDone());
-                            System.out.println("ConnectFuture Exception: " + future.getException());
-                            System.out.println("**********----***********");
-                            if (!Connection.this.client.getCps().contains(Connection.this)) {
-                                Connection.this.client.addConnectionPoint(Connection.this);
-                                Connection.this.client.refresh();
-                            }
+
                         }
                     });
 //                    future.awaitUninterruptibly(5000);
