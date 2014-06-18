@@ -23,6 +23,10 @@ public class Client {
 
     private int count = 0;
 
+    public ConsistentHash<Connection> getConnectionsPoints() {
+        return connectionsPoints;
+    }
+
     public List<Connection> getCps() {
         return cps;
     }

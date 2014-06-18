@@ -32,7 +32,8 @@ public class RuntimeMonitor {
         // Passing in the class for the servlet allows jetty to instantite an instance of that servlet and mount it
             // on a given context path.
             // !! This is a raw Servlet, not a servlet that has been configured through a web.xml or anything like that !!
-            handler.addServletWithMapping(ProfilerServlet.class, "/profiler");
+            handler.addServletWithMapping(ServerProfilerServlet.class, "/server/profiler");
+            handler.addServletWithMapping(ClientProfilerServlet.class, "/client/profiler");
             httpServer.start();
 //            httpServer.join();
         } catch (Exception ex) {

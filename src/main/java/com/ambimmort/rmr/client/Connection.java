@@ -40,6 +40,16 @@ public class Connection {
         return connected;
     }
 
+    public IoConnector getConnector() {
+        return connector;
+    }
+
+    public IoSession getSession() {
+        return session;
+    }
+
+    
+    
     public Connection(String host, int port, Client client) {
         this.client = client;
         client.addConnectionPoint(this);
@@ -63,7 +73,9 @@ public class Connection {
             @Override
             public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
                 Connection.this.connected = false;
+                cause.printStackTrace();
                 session.close(true);
+                
                 reconnect();
             }
 
@@ -114,6 +126,7 @@ public class Connection {
                         reconnectOnStart();
                         break;
                     } catch (Throwable e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -129,6 +142,7 @@ public class Connection {
                             reconnectOnStart();
                             break;
                         } catch (Throwable e) {
+                            e.printStackTrace();
                         }
                     }
                 }

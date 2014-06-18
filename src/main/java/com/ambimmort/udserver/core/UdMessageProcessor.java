@@ -54,6 +54,12 @@ public class UdMessageProcessor implements Runnable {
 
     }
 
+    public static HashMap<String, Client> getClients() {
+        return clients;
+    }
+    
+    
+
     public UdMessageProcessor(List<UdRawMessage> msgs) {
         this.msgs = msgs;
     }
