@@ -111,13 +111,13 @@ public class Connection {
                         }
                     }
                 });
-                future.awaitUninterruptibly(5000);
-                session = future.getSession();
-                session.getCloseFuture().awaitUninterruptibly(5000);
-                if (!Connection.this.client.getCps().contains(Connection.this)) {
-                    Connection.this.client.addConnectionPoint(Connection.this);
-                    Connection.this.client.refresh();
-                }
+//                future.awaitUninterruptibly(5000);
+//                session = future.getSession();
+//                session.getCloseFuture().awaitUninterruptibly(5000);
+//                if (!Connection.this.client.getCps().contains(Connection.this)) {
+//                    Connection.this.client.addConnectionPoint(Connection.this);
+//                    Connection.this.client.refresh();
+//                }
             }
 
             private void reconnect() {
@@ -170,9 +170,9 @@ public class Connection {
                             }
                         }
                     });
-                    future.awaitUninterruptibly(5000);
-                    session = future.getSession();
-                    session.getCloseFuture().awaitUninterruptibly(5000);
+//                    future.awaitUninterruptibly(5000);
+//                    session = future.getSession();
+//                    session.getCloseFuture().awaitUninterruptibly(5000);
 
                 }
             });
