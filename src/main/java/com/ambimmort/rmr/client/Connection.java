@@ -91,7 +91,7 @@ public class Connection {
                         System.out.println("**********----***********");
                         System.out.println("session[" + session.getId() + "] local:" + session.getLocalAddress() + " remote:" + session.getRemoteAddress());
                         System.out.println("ConnectFuture isCanceled:" + future.isCanceled() + "\tisConnected:" + future.isConnected() + "\tisDone:" + future.isDone());
-                        System.out.println("ConnectFuture Exception: " + future.getException().toString());
+                        System.out.println("ConnectFuture Exception: " + future.getException());
                         System.out.println("**********----***********");
                         if (!Connection.this.client.getCps().contains(Connection.this)) {
                             Connection.this.client.addConnectionPoint(Connection.this);
@@ -148,7 +148,7 @@ public class Connection {
                             System.out.println("**********----***********");
                             System.out.println("session[" + session.getId() + "] local:" + session.getLocalAddress() + " remote:" + session.getRemoteAddress());
                             System.out.println("ConnectFuture isCanceled:" + future.isCanceled() + "\tisConnected:" + future.isConnected() + "\tisDone:" + future.isDone());
-                            System.out.println("ConnectFuture Exception: " + future.getException().toString());
+                            System.out.println("ConnectFuture Exception: " + future.getException());
                             System.out.println("**********----***********");
                             if (!Connection.this.client.getCps().contains(Connection.this)) {
                                 Connection.this.client.addConnectionPoint(Connection.this);

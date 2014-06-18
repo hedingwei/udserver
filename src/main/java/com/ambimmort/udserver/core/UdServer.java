@@ -2,6 +2,7 @@ package com.ambimmort.udserver.core;
 
 
 import com.ambimmort.udserver.configuration.UdServerConfig;
+import com.ambimmort.udserver.monitor.RuntimeMonitor;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
@@ -9,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IdleStatus;
+import org.apache.mina.core.session.IoEventType;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.logging.LoggingFilter;
 import org.apache.mina.filter.statistic.ProfilerTimerFilter;
@@ -24,7 +26,7 @@ public class UdServer {
 
     private UdServerConfig config = null;
     
-    private ProfilerTimerFilter profiler = new ProfilerTimerFilter(TimeUnit.SECONDS);
+    private ProfilerTimerFilter profiler = new ProfilerTimerFilter(TimeUnit.MINUTES, IoEventType.MESSAGE_RECEIVED, IoEventType.EXCEPTION_CAUGHT,IoEventType.CLOSE,IoEventType.SESSION_CLOSED,IoEventType.SESSION_CREATED,IoEventType.SESSION_OPENED,IoEventType.SESSION_IDLE);
 
     public UdServer() {
         config = UdServerConfig.getConfig();
@@ -69,10 +71,10 @@ public class UdServer {
         
         UdServer server = new UdServer();
         server.bind();
-        
-        
         UdMessageProcessor.init();
 
+        RuntimeMonitor.getInstance().setServer(server);
+        
 //        new TableInitializer().init();
 //        System.out.println("Table Initialized");
 //        UdWindow.getInstance();
