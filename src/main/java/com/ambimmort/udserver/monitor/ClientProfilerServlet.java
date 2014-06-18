@@ -9,7 +9,6 @@ import com.ambimmort.rmr.client.Client;
 import com.ambimmort.rmr.client.Connection;
 import com.ambimmort.rmr.client.ConsistentHash;
 import com.ambimmort.udserver.core.UdMessageProcessor;
-import static com.ambimmort.udserver.monitor.ServerProfilerServlet.sdf;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -20,9 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.service.IoConnector;
-import org.apache.mina.core.session.IoEventType;
 import org.apache.mina.core.session.IoSession;
 
 /**
