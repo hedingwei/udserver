@@ -52,7 +52,7 @@ public class Connection {
         connector.setHandler(new IoHandlerAdapter() {
             @Override
             public void sessionOpened(IoSession session) throws Exception {
-                System.out.println("session opend");
+                System.out.println("session opend. remote address: "+session.getRemoteAddress());
                 Connection.this.connected = true;
                 if (!Connection.this.client.getCps().contains(Connection.this)) {
                     Connection.this.client.addConnectionPoint(Connection.this);
@@ -69,6 +69,7 @@ public class Connection {
 
             @Override
             public void sessionClosed(IoSession session) throws Exception {
+                System.out.println("session closed. remote address: "+session.getRemoteAddress());
                 Connection.this.connected = false;
                 Connection.this.client.getCps().remove(Connection.this);
                 Connection.this.client.refresh();
