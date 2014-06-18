@@ -2,9 +2,6 @@ package com.ambimmort.udserver.core;
 
 
 import com.ambimmort.udserver.configuration.UdServerConfig;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
@@ -13,7 +10,6 @@ import java.util.logging.Logger;
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
-import org.apache.mina.filter.firewall.ConnectionThrottleFilter;
 import org.apache.mina.filter.logging.LoggingFilter;
 import org.apache.mina.filter.statistic.ProfilerTimerFilter;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
