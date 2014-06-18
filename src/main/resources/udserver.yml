@@ -12,8 +12,7 @@ server:
 router:
     p_01_83:
         - "localhost:9700"
-    p_01_01:
-        - "localhost:9701"   
+ 
  
 #cache has 4 main properties
 # limit: commit to database for a limited buffer size. default value is 10000

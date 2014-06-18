@@ -20,7 +20,7 @@ public class Client {
     private ConsistentHash<Connection> connectionsPoints = null;
 
     private List<Connection> cps = null;
-    
+
     private int count = 0;
 
     public List<Connection> getCps() {
@@ -31,7 +31,7 @@ public class Client {
         this.cps = cps;
         connectionsPoints = new ConsistentHash<Connection>(Hashing.murmur3_128(), cps.size(), cps);
     }
-    
+
     public Client() {
         this.cps = new ArrayList<Connection>();
         connectionsPoints = new ConsistentHash<Connection>(Hashing.murmur3_128(), cps.size(), cps);
@@ -41,8 +41,8 @@ public class Client {
         connectionsPoints = null;
         connectionsPoints = new ConsistentHash<Connection>(Hashing.murmur3_128(), cps.size(), cps);
     }
-    
-    public void addConnectionPoint(Connection cp){
+
+    public void addConnectionPoint(Connection cp) {
         this.cps.add(cp);
         refresh();
     }
@@ -65,13 +65,19 @@ public class Client {
 
     public boolean send(Object key, Object obj) {
         Connection cp = this.connectionsPoints.get(key);
+        if (cp == null) {
+            return false;
+        }
         return cp.send(obj);
     }
-    
+
     public boolean send(Object obj) {
         count++;
-        int index = count%cps.size();
+        int index = count % cps.size();
         Connection cp = cps.get(index);
+        if (cp == null) {
+            return false;
+        }
         return cp.send(obj);
     }
 
