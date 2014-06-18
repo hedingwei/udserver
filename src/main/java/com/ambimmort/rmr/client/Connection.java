@@ -10,14 +10,9 @@ import java.net.InetSocketAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.mina.core.RuntimeIoException;
-import org.apache.mina.core.future.ConnectFuture;
-import org.apache.mina.core.future.IoFuture;
-import org.apache.mina.core.future.IoFutureListener;
 import org.apache.mina.core.service.IoConnector;
 import org.apache.mina.core.service.IoHandlerAdapter;
-import org.apache.mina.core.service.IoServiceListener;
 import org.apache.mina.core.session.IoSession;
-import org.apache.mina.core.session.IoSessionInitializer;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
@@ -100,27 +95,7 @@ public class Connection {
                     Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 session = null;
-                ConnectFuture future = connector.connect(new InetSocketAddress(Connection.this.endPoint.getHost(), Connection.this.endPoint.getPort()), new IoSessionInitializer<ConnectFuture>() {
-
-                    public void initializeSession(IoSession session, ConnectFuture future) {
-//                        System.out.println("**********----***********");
-//                        System.out.println("session[" + session.getId() + "] local:" + session.getLocalAddress() + " remote:" + session.getRemoteAddress());
-//                        System.out.println("ConnectFuture isCanceled:" + future.isCanceled() + "\tisConnected:" + future.isConnected() + "\tisDone:" + future.isDone());
-//                        System.out.println("ConnectFuture Exception: " + future.getException());
-//                        System.out.println("**********----***********");
-//                        if (!Connection.this.client.getCps().contains(Connection.this)) {
-//                            Connection.this.client.addConnectionPoint(Connection.this);
-//                            Connection.this.client.refresh();
-//                        }
-                    }
-                });
-//                future.awaitUninterruptibly(5000);
-//                session = future.getSession();
-//                session.getCloseFuture().awaitUninterruptibly(5000);
-//                if (!Connection.this.client.getCps().contains(Connection.this)) {
-//                    Connection.this.client.addConnectionPoint(Connection.this);
-//                    Connection.this.client.refresh();
-//                }
+                connector.connect(new InetSocketAddress(Connection.this.endPoint.getHost(), Connection.this.endPoint.getPort()));
             }
 
             private void reconnect() {
@@ -160,16 +135,7 @@ public class Connection {
                     }
                     session = null;
 
-                    ConnectFuture future = connector.connect(new InetSocketAddress(Connection.this.endPoint.getHost(), Connection.this.endPoint.getPort()), new IoSessionInitializer<ConnectFuture>() {
-
-                        public void initializeSession(IoSession session, ConnectFuture future) {
-
-                        }
-                    });
-//                    future.awaitUninterruptibly(5000);
-//                    session = future.getSession();
-//                    session.getCloseFuture().awaitUninterruptibly(5000);
-
+                    connector.connect(new InetSocketAddress(Connection.this.endPoint.getHost(), Connection.this.endPoint.getPort()));
                 }
             });
             this.thread.start();
