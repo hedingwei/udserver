@@ -14,6 +14,17 @@ public class Server {
     private int port;
     private String uuid_path;
     private int timeout;
+    private int mode;
+
+    public int getMode() {
+        return mode;
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
+    }
+    
+    
 
     public int getPort() {
         return port;

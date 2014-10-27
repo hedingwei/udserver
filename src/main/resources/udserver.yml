@@ -3,15 +3,21 @@
 # uuid_path : each udserver has a unique id, uuid file will be created automatically
 #             when the first run
 # timeout : for each client connection, set the read timeout. default 300 seconds
+# mode: 0:broadcast; 1:consistenthash;
 
 server: 
     port: 60001
     uuid_path: etc/id.uuid
     timeout: 300
+    mode: 0
 
 router:
-    p_01_83:
+    p_01_02:
         - "localhost:9700"
+        - "localhost:8000"
+    p_01_c4:
+        - "localhost:9700"
+        - "localhost:8000"
  
  
 #cache has 4 main properties

@@ -5,11 +5,7 @@
  */
 package com.ambimmort.rmr.plugins.fstserialization;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Input;
 import de.ruedigermoeller.serialization.FSTObjectInput;
-import java.nio.ByteBuffer;
-import org.apache.mina.core.buffer.AbstractIoBuffer;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.CumulativeProtocolDecoder;

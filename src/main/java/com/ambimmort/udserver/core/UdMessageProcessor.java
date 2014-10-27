@@ -45,8 +45,8 @@ public class UdMessageProcessor implements Runnable {
         NumberFormat nf = NumberFormat.getNumberInstance();
         nf.setMinimumIntegerDigits(2);
         for (int i = 0; i < 256; i++) {
-            routers_ud1.put((byte) i, "p_01_" + (Integer.toHexString(i).length()==2?Integer.toHexString(i):""+Integer.toHexString(i)));
-            routers_ud2.put((byte) i, "p_02_" + (Integer.toHexString(i).length()==2?Integer.toHexString(i):""+Integer.toHexString(i)));
+            routers_ud1.put((byte) i, "p_01_" + (Integer.toHexString(i).length()==2?Integer.toHexString(i):"0"+Integer.toHexString(i)));
+            routers_ud2.put((byte) i, "p_02_" + (Integer.toHexString(i).length()==2?Integer.toHexString(i):"0"+Integer.toHexString(i)));
         }
     }
 
@@ -57,8 +57,6 @@ public class UdMessageProcessor implements Runnable {
     public static HashMap<String, Client> getClients() {
         return clients;
     }
-    
-    
 
     public UdMessageProcessor(List<UdRawMessage> msgs) {
         this.msgs = msgs;
@@ -72,11 +70,21 @@ public class UdMessageProcessor implements Runnable {
             m.setMsg(msg.getBytes());
             if (msg.getPacketType() == 0x01) {
                 if (routers_ud1.containsKey(m.getSubtype())) {
-                    clients.get(routers_ud1.get(m.getSubtype())).send(m);
+                    if(UdServerConfig.getConfig().getServer().getMode()==0){
+                        clients.get(routers_ud1.get(m.getSubtype())).broadcast(m);
+                    }else if(UdServerConfig.getConfig().getServer().getMode()==1){
+                        clients.get(routers_ud1.get(m.getSubtype())).send(m);
+                    }
+                    
                 }
             } else if (msg.getPacketType() == 0x02) {
                 if (routers_ud2.containsKey(m.getSubtype())) {
-                    clients.get(routers_ud2.get(m.getSubtype())).send(m);
+                    if(UdServerConfig.getConfig().getServer().getMode()==0){
+                        clients.get(routers_ud2.get(m.getSubtype())).broadcast(m);
+                    }else if(UdServerConfig.getConfig().getServer().getMode()==1){
+                        clients.get(routers_ud2.get(m.getSubtype())).send(m);
+                    }
+                    
                 }
             }
         }

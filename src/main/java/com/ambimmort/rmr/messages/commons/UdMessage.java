@@ -13,9 +13,18 @@ import java.io.Serializable;
  */
 public class UdMessage implements Serializable {
 
+    private String ip;
     private byte type;
     private byte subtype;
     private byte[] msg;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     public byte getType() {
         return type;

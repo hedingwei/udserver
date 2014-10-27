@@ -5,9 +5,8 @@
  */
 package com.ambimmort.rmr.plugins.fstserialization;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.ByteBufferOutput;
-import com.esotericsoftware.kryo.io.Output;
+//import com.esotericsoftware.kryo.Kryo;
+//import com.esotericsoftware.kryo.io.ByteBufferOutput;
 import de.ruedigermoeller.serialization.FSTObjectOutput;
 import java.io.NotSerializableException;
 import java.io.Serializable;
@@ -25,15 +24,15 @@ public class FstSerializationEncoder extends ProtocolEncoderAdapter {
 
     private int maxObjectSize = Integer.MAX_VALUE; // 2GB
 
-    private static Kryo kryo = new Kryo();
+//    private static Kryo kryo = new Kryo();
 
-    private ByteBufferOutput output = new ByteBufferOutput(1024, maxObjectSize);
+//    private ByteBufferOutput output = new ByteBufferOutput(1024, maxObjectSize);
 
     private ByteBuffer buffer = null;
-
-    static {
-        kryo.setRegistrationRequired(false);
-    }
+//
+//    static {
+//        kryo.setRegistrationRequired(false);
+//    }
 
     /**
      * Creates a new instance.
