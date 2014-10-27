@@ -68,6 +68,7 @@ public class UdMessageProcessor implements Runnable {
             m.setType(msg.getPacketType());
             m.setSubtype(msg.getPacketSubType());
             m.setMsg(msg.getBytes());
+            m.setIp(msg.getIp());
             if (msg.getPacketType() == 0x01) {
                 if (routers_ud1.containsKey(m.getSubtype())) {
                     if(UdServerConfig.getConfig().getServer().getMode()==0){

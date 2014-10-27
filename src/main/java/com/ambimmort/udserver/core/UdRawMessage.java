@@ -23,6 +23,25 @@ public class UdRawMessage {
     private byte packetType;
     private byte packetSubType;
     private String sessionId;
+    private String ip;
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+    
+    
 
     public void setPacketSubType(byte packetSubType) {
         this.packetSubType = packetSubType;

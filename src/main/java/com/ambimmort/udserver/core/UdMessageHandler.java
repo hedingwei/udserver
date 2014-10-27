@@ -5,6 +5,7 @@
  */
 package com.ambimmort.udserver.core;
 
+import java.net.InetSocketAddress;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.apache.mina.core.service.IoHandlerAdapter;
@@ -19,9 +20,12 @@ public class UdMessageHandler extends IoHandlerAdapter {
 
     UdMessageCache cache = UdMessageCache.getInstance();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String ip = "";
 
     @Override
     public void sessionOpened(IoSession session) throws Exception {
+        InetSocketAddress addr = (InetSocketAddress) session.getRemoteAddress();
+        this.ip = addr.getAddress().getHostAddress();
         System.out.println("dpi session opend[" + sdf.format(new Date(session.getCreationTime())) + "].  remote address: " + session.getRemoteAddress());
     }
 
@@ -39,6 +43,7 @@ public class UdMessageHandler extends IoHandlerAdapter {
     @Override
     public void messageReceived(IoSession session, Object message) throws Exception {
         UdRawMessage msg = (UdRawMessage) message;
+        msg.setIp(ip);
         cache.add(msg);
     }
 
