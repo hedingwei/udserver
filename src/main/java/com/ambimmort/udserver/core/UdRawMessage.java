@@ -24,6 +24,24 @@ public class UdRawMessage {
     private byte packetSubType;
     private String sessionId;
     private String ip;
+    private byte[] ipBytes;
+    private int ipInt;
+
+    public int getIpInt() {
+        return ipInt;
+    }
+
+    public void setIpInt(int ipInt) {
+        this.ipInt = ipInt;
+    }
+
+    public byte[] getIpBytes() {
+        return ipBytes;
+    }
+
+    public void setIpBytes(byte[] ipBytes) {
+        this.ipBytes = ipBytes;
+    }
 
     public String getSessionId() {
         return sessionId;
@@ -40,8 +58,6 @@ public class UdRawMessage {
     public void setIp(String ip) {
         this.ip = ip;
     }
-    
-    
 
     public void setPacketSubType(byte packetSubType) {
         this.packetSubType = packetSubType;

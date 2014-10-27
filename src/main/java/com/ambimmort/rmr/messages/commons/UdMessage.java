@@ -13,16 +13,16 @@ import java.io.Serializable;
  */
 public class UdMessage implements Serializable {
 
-    private String ip;
+    private int ip;
     private byte type;
     private byte subtype;
     private byte[] msg;
 
-    public String getIp() {
+    public int getIp() {
         return ip;
     }
 
-    public void setIp(String ip) {
+    public void setIp(int ip) {
         this.ip = ip;
     }
 

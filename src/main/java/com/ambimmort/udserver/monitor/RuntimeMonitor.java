@@ -34,6 +34,7 @@ public class RuntimeMonitor {
             // !! This is a raw Servlet, not a servlet that has been configured through a web.xml or anything like that !!
             handler.addServletWithMapping(ServerProfilerServlet.class, "/server/profiler");
             handler.addServletWithMapping(ClientProfilerServlet.class, "/client/profiler");
+            handler.addServletWithMapping(ServerProfilerServlet.class, "/reset");
             httpServer.start();
 //            httpServer.join();
         } catch (Exception ex) {

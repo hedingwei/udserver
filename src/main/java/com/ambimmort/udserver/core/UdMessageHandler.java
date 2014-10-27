@@ -5,6 +5,7 @@
  */
 package com.ambimmort.udserver.core;
 
+import com.ambimmort.udserver.IPv4Util;
 import java.net.InetSocketAddress;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,12 +21,16 @@ public class UdMessageHandler extends IoHandlerAdapter {
 
     UdMessageCache cache = UdMessageCache.getInstance();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    String ip = "";
+    byte[] ipBytes = null;
+    String ip = null;
+    int ipInt = 0;
 
     @Override
     public void sessionOpened(IoSession session) throws Exception {
         InetSocketAddress addr = (InetSocketAddress) session.getRemoteAddress();
         this.ip = addr.getAddress().getHostAddress();
+        ipBytes = addr.getAddress().getAddress();
+        ipInt = IPv4Util.bytesToInt(ipBytes);
         System.out.println("dpi session opend[" + sdf.format(new Date(session.getCreationTime())) + "].  remote address: " + session.getRemoteAddress());
     }
 
